@@ -1,9 +1,20 @@
 import { faFire, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { users } from "../mocks/users";
 import type { User } from "../types/user";
+import { useEffect, useState } from "react";
+import { getRepositoryContent } from "../api/repository";
 
 const LeaderBoard = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getRepositoryContent("data.json");
+      setUsers(data.users);
+      console.log(data);
+    }
+    getData();
+  }, [])
   return (
     <div className="flex flex-col w-full inset-shadow-sm/15 rounded-2xl p-10 gap-4">
       <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">전체 리더보드</h2>
