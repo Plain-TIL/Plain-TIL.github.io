@@ -6,8 +6,8 @@ import type { User } from "../types/user";
 const LeaderBoard = () => {
   return (
     <div className="flex flex-col w-full inset-shadow-sm/15 rounded-2xl p-10 gap-4">
-      <h2 className="text-3xl font-bold">전체 리더보드</h2>
-      <div className="grid grid-cols-3 gap-10">
+      <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">전체 리더보드</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {users.map((user: User, index: number) => {
           return (
             <div key={index} className="flex items-center rounded-lg bg-gray-100 p-6 gap-4">
