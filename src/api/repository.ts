@@ -6,6 +6,7 @@ const octokit = new Octokit({
   auth: import.meta.env.VITE_GITHUB_TOKEN
 })
 
+// 필요
 export const getRepositories = async () => {
   const response = await octokit.request("GET /orgs/{org}/repos", {
     org: orgName,
@@ -16,10 +17,11 @@ export const getRepositories = async () => {
   if (response.status == 200) {
     return response.data;
   } else {
-    console.log("데이터를 가져오지 못했습니다.")
+    console.log("데이터를 가져오지 못했습니다.");
     return [];
   }
 }
+
 
 export const getRepository = async () => {
   const response = await octokit.request("GET /repos/{owner}/{repo}/", {
@@ -37,6 +39,7 @@ export const getRepository = async () => {
   }
 }
 
+// 특정 Repo의 JSON 데이터 가져오기
 export const getRepositoryContent = async (path: string) => {
   const response = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
     owner: orgName,
