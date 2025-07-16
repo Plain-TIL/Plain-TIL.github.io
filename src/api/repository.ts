@@ -58,7 +58,6 @@ export const getRepositoryContent = async (path: string) => {
 
     if ('content' in response.data) {
       const content = atob(response.data.content);
-      console.log(content)
       return JSON.parse(content);
     }
   }

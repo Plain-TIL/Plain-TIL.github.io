@@ -11,7 +11,6 @@ const LeaderBoard = () => {
     const getData = async () => {
       const data = await getRepositoryContent("data.json");
       setUsers(data.users);
-      console.log(data);
     }
     getData();
   }, [])
