@@ -2,10 +2,11 @@ import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faChartLine, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { getRepositories } from "../api/repository";
+import { getRepositories, getRepositoryContent } from "../api/repository";
 
 const SideBar = ({ user }: { user: string }) => {
   const [toggle, setToggle] = useState<boolean>(false);
+  const [trigger, setTrigger] = useState<boolean>(false);
   const [repos, setRepos] = useState<any[]>([]);
   const [userToggle, setUserToggle] = useState<boolean>(false);
 
@@ -16,6 +17,24 @@ const SideBar = ({ user }: { user: string }) => {
     }
     getData();
   }, [])
+
+  useEffect(() => {
+
+    const getData = async () => {
+      const res = (await getRepositories())
+                  .filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name))
+                  .map((repo: any) => { return repo.name});
+      const data = (await getRepositoryContent("data.json"))
+                  .users.map((user: any) => { return user.name });
+      const newRepos = res.filter(name => !data.includes(name))
+      console.log(newRepos);
+    }
+
+    setTimeout(() => {
+      getData();
+      setTrigger(!trigger);
+    }, 20000)
+  }, [trigger])
   
   return (
     <div className={`flex flex-col p-4 transition-all duration-600 ${toggle ? "w-1/18" : "w-1/5"}`}>
