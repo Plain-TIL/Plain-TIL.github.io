@@ -2,10 +2,36 @@ import { faFire, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { User } from "../types/user";
 import { useEffect, useState } from "react";
-import { getRepositoryContent } from "../api/repository";
+import { getRepositoryContent, getRepositories } from "../api/repository";
+import { pushRepositoryContent } from "../api/commit";
+import { Timer } from "../utils/timer";
 
 const LeaderBoard = () => {
   const [users, setUsers] = useState([]);
+  const [trigger, setTrigger] = useState<boolean>(false);
+
+  useEffect(() => {
+    const getData = async () => {
+      const res = (await getRepositories())
+                  .filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name))
+                  .map((repo: any) => { return repo.name});
+      const originData = await getRepositoryContent("data.json")
+      const data = originData.users.map((user: any) => { return user.name });
+      const newRepos = res.filter(name => !data.includes(name))
+
+      const object = { users: [...originData.users, ...newRepos.map((name) => {
+        return (
+          {name: name, streak: 0, max_streak: 0, til: 0, today: false}
+        )
+      })]}
+      if (newRepos.length > 0) await pushRepositoryContent(object);
+    }
+    
+    Timer(() => {
+      getData();
+      setTrigger(!trigger);
+    })
+  }, [trigger]);
 
   useEffect(() => {
     const getData = async () => {
@@ -14,6 +40,7 @@ const LeaderBoard = () => {
     }
     getData();
   }, [])
+
   return (
     <div className="flex flex-col w-full inset-shadow-sm/15 rounded-2xl p-10 gap-4">
       <h2 className="text-xl md:text-2xl lg:text-3xl font-bold">전체 리더보드</h2>
