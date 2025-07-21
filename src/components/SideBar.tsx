@@ -3,11 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faChartLine, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { getRepositories } from "../api/repository";
-import { Timer } from "../utils/timer";
 
 const SideBar = ({ user }: { user: string }) => {
   const [toggle, setToggle] = useState<boolean>(false);
-  const [trigger, setTrigger] = useState<boolean>(false);
   const [repos, setRepos] = useState<any[]>([]);
   const [userToggle, setUserToggle] = useState<boolean>(false);
   
@@ -16,11 +14,8 @@ const SideBar = ({ user }: { user: string }) => {
       const data = await getRepositories();
       setRepos(data.filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name)))
     }
-    Timer(() => {
-      getData();
-      setTrigger(!trigger);
-    });
-  }, [trigger]);
+    getData();
+  }, [])
   
   return (
     <div className={`flex flex-col p-4 transition-all duration-600 ${toggle ? "w-1/18" : "w-1/5"}`}>
