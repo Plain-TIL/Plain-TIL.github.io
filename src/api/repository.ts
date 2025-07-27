@@ -23,10 +23,10 @@ export const getRepositories = async () => {
 }
 
 
-export const getRepository = async () => {
+export const getRepository = async (repo: string) => {
   const { data, status } = await octokit.request("GET /repos/{owner}/{repo}/", {
     owner: orgName,
-    repo: "main_data",
+    repo: repo,
     headers: {
       'X-GitHub-Api-Version': '2022-11-28'
     }
@@ -40,10 +40,10 @@ export const getRepository = async () => {
 }
 
 // 특정 Repo의 JSON 데이터 가져오기
-export const getRepositoryContent = async (path: string) => {
+export const getRepositoryContent = async (repo: string, path: string) => {
   const { data, status } = await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", {
     owner: orgName,
-    repo: "main_data",
+    repo: repo,
     path,
     headers: {
       'X-GitHub-Api-Version': '2022-11-28'

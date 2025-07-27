@@ -1,21 +1,23 @@
 import { faFire, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { User } from "../types/user";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { getRepositoryContent, getRepositories } from "../api/repository";
 import { pushRepositoryContent } from "../api/commit";
 import { Timer } from "../utils/timer";
+import { Wrapper } from "../components/Wrapper/Wrapper";
 
-const LeaderBoard = () => {
-  const [users, setUsers] = useState([]);
+const LeaderBoardWrapper = () => {
+  const userPromise = getRepositoryContent("main_data", "data.json");
   const [trigger, setTrigger] = useState<boolean>(false);
 
+  // utils를 사용해서 use hook으로 변경 (추후)
   useEffect(() => {
     const getData = async () => {
       const res = (await getRepositories())
                   .filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name))
                   .map((repo: any) => { return repo.name});
-      const originData = await getRepositoryContent("data.json")
+      const originData = await getRepositoryContent("main_data", "data.json")
       const data = originData.users.map((user: any) => { return user.name });
       const newRepos = res.filter(name => !data.includes(name))
 
@@ -24,7 +26,7 @@ const LeaderBoard = () => {
           {name: name, streak: 0, max_streak: 0, til: 0, today: false}
         )
       })]}
-      if (newRepos.length > 0) await pushRepositoryContent(object);
+      if (newRepos.length > 0) await pushRepositoryContent("main_data", object, "data.json");
     }
     
     Timer(() => {
@@ -33,13 +35,15 @@ const LeaderBoard = () => {
     })
   }, [trigger]);
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getRepositoryContent("data.json");
-      setUsers(data.users);
-    }
-    getData();
-  }, [])
+  return (
+    <Wrapper>
+      <LeaderBoard userPromise={userPromise} />
+    </Wrapper>
+  )
+}
+
+const LeaderBoard = ({ userPromise }: { userPromise: Promise<any>}) => {
+  const users = use(userPromise).users;
 
   return (
     <div className="flex flex-col w-full inset-shadow-sm/15 rounded-2xl p-10 gap-4">
@@ -71,4 +75,4 @@ const LeaderBoard = () => {
   )
 }
 
-export default LeaderBoard;
+export default LeaderBoardWrapper;
