@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faChartLine, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { getRepositories } from "../../api/repository";
+import useRendering from "hooks/useRendering";
 
 const SideBar = ({ user }: { user: string }) => {
   const [toggle, setToggle] = useState<boolean>(false);
   const [repos, setRepos] = useState<any[]>([]);
   const [userToggle, setUserToggle] = useState<boolean>(false);
   
-  useEffect(() => {
-    const getData = async () => {
+  // 사이드바도 수시로 렌더링이 가능하도록 hook으로 제작이 필요함.
+  useRendering(async () => {
       const data = await getRepositories();
       setRepos(data.filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name)))
-    }
-    getData();
-  }, [])
+  })
   
   return (
     <div className={`flex flex-col p-4 transition-all duration-600 ${toggle ? "w-1/18" : "w-1/5"}`}>

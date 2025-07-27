@@ -1,39 +1,30 @@
 import { faFire, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import type { User } from "../types/user";
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import { getRepositoryContent, getRepositories } from "../api/repository";
 import { pushRepositoryContent } from "../api/commit";
-import { Timer } from "../utils/timer";
 import { Wrapper } from "../components/Wrapper/Wrapper";
+import useRendering from "hooks/useRendering";
 
 const LeaderBoardWrapper = () => {
   const userPromise = getRepositoryContent("main_data", "data.json");
-  const [trigger, setTrigger] = useState<boolean>(false);
 
-  // utils를 사용해서 use hook으로 변경 (추후)
-  useEffect(() => {
-    const getData = async () => {
-      const res = (await getRepositories())
-                  .filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name))
-                  .map((repo: any) => { return repo.name});
-      const originData = await getRepositoryContent("main_data", "data.json")
-      const data = originData.users.map((user: any) => { return user.name });
-      const newRepos = res.filter(name => !data.includes(name))
+  useRendering(async () => {
+    const res = (await getRepositories())
+                .filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name))
+                .map((repo: any) => { return repo.name});
+    const originData = await getRepositoryContent("main_data", "data.json")
+    const data = originData.users.map((user: any) => { return user.name });
+    const newRepos = res.filter(name => !data.includes(name))
 
-      const object = { users: [...originData.users, ...newRepos.map((name) => {
-        return (
-          {name: name, streak: 0, max_streak: 0, til: 0, today: false}
-        )
-      })]}
-      if (newRepos.length > 0) await pushRepositoryContent("main_data", object, "data.json");
-    }
-    
-    Timer(() => {
-      getData();
-      setTrigger(!trigger);
-    })
-  }, [trigger]);
+    const object = { users: [...originData.users, ...newRepos.map((name) => {
+      return (
+        {name: name, streak: 0, max_streak: 0, til: 0, today: false}
+      )
+    })]}
+    if (newRepos.length > 0) await pushRepositoryContent("main_data", object, "data.json");
+  });
 
   return (
     <Wrapper>

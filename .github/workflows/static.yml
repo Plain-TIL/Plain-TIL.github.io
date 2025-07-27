@@ -36,6 +36,7 @@ jobs:
           echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" >> .env
           echo "VITE_ORG_NAME=${{ secrets.VITE_ORG_NAME }}" >> .env
           echo "VITE_OWNER=${{ secrets.VITE_OWNER }}" >> .env
+          echo "VITE_RENDER_TIME=${{ secrets.VITE_RENDER_TIME }}" >> .env
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
