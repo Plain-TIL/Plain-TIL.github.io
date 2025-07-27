@@ -2,19 +2,12 @@ import { useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faChartLine, faUser, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import { getRepositories } from "../../api/repository";
-import useRendering from "hooks/useRendering";
+import useRepositories from "../../hooks/useRepositories";
 
 const SideBar = ({ user }: { user: string }) => {
   const [toggle, setToggle] = useState<boolean>(false);
-  const [repos, setRepos] = useState<any[]>([]);
+  const { repositories } = useRepositories();
   const [userToggle, setUserToggle] = useState<boolean>(false);
-  
-  // 사이드바도 수시로 렌더링이 가능하도록 hook으로 제작이 필요함.
-  useRendering(async () => {
-      const data = await getRepositories();
-      setRepos(data.filter(repo => !["Plain-TIL.github.io", "main_data"].includes(repo.name)))
-  })
   
   return (
     <div className={`flex flex-col p-4 transition-all duration-600 ${toggle ? "w-1/18" : "w-1/5"}`}>
@@ -45,15 +38,15 @@ const SideBar = ({ user }: { user: string }) => {
       </button>
       {/* Github API 연동 */}
       {userToggle && (
-        repos.map((repo: any, index: number) => {
+        repositories.map((name: any, index: number) => {
           return (
-            <Link to={`/${repo.name}`} key={index} className={`relative flex gap-4 px-4.75 items-center cursor-pointer rounded-md hover:bg-gray-200 py-2 ${toggle ? "pb-4" : "mb-2"}`}>
+            <Link to={`/${name}`} key={index} className={`relative flex gap-4 px-4.75 items-center cursor-pointer rounded-md hover:bg-gray-200 py-2 ${toggle ? "pb-4" : "mb-2"}`}>
               <FontAwesomeIcon icon={faUser} />
               <span className={`font-medium transition-all duration-400 whitespace-nowrap ${toggle ? "opacity-0" : ""}`}>
-                {repo.name}
+                {name}
               </span>
               <span className={`absolute top-8 left-1/2 -translate-x-1/2 text-xs transition-opacity whitespace-nowrap ${toggle ? "delay-400 duration-400" : "opacity-0 duration-100"}`}>
-                {repo.name}
+                {name}
               </span>
             </Link> 
           )

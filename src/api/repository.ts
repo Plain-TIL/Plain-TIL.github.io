@@ -17,7 +17,6 @@ export const getRepositories = async () => {
   if (status == 200) {
     return data;
   } else {
-    console.log("데이터를 가져오지 못했습니다.");
     return [];
   }
 }
@@ -34,7 +33,6 @@ export const getRepository = async (repo: string) => {
   if (status == 200) {
     return data;
   } else {
-    console.log("데이터를 가져오지 못했습니다.")
     return [];
   }
 }
@@ -62,6 +60,5 @@ export const getRepositoryContent = async (repo: string, path: string) => {
     }
   }
 
-  console.log("데이터를 가져오지 못했습니다.");
   return null;
 };

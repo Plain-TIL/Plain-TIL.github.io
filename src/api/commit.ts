@@ -20,7 +20,6 @@ export const pushRepositoryContent = async (repo: string, data: Props, path: str
       'X-GitHub-Api-Version': '2022-11-28'
     },
   })).data;
-  console.log(`Blob SHA: ${blobSha}`);
 
   // ref/heads/main 브랜치의 최신 커밋 SHA 가져오기
   const { object: { sha: latestCommitSha } } = (await octokit.request('GET /repos/{owner}/{repo}/git/ref/{ref}', {
@@ -31,7 +30,6 @@ export const pushRepositoryContent = async (repo: string, data: Props, path: str
       'X-GitHub-Api-Version': '2022-11-28'
     },
   })).data;
-  console.log(`Latest commit SHA: ${latestCommitSha}`);
 
   // 최신 커밋 정보를 가져와서 트리 SHA를 얻기
   const { tree: { sha: latestTreeSha } } = (await octokit.request('GET /repos/{owner}/{repo}/git/commits/{commit_sha}', {
@@ -42,7 +40,6 @@ export const pushRepositoryContent = async (repo: string, data: Props, path: str
       'X-GitHub-Api-Version': '2022-11-28'
     },
   })).data;
-  console.log(`Latest tree SHA: ${latestTreeSha}`);
 
   // tree 개체 생성
   const { sha: newTreeSha } = (await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
@@ -61,7 +58,6 @@ export const pushRepositoryContent = async (repo: string, data: Props, path: str
       'X-GitHub-Api-Version': '2022-11-28'
     },
   })).data;
-  console.log(`New tree SHA: ${newTreeSha}`);
 
   // Commit 개체 생성
   const { sha: newCommitSha } = (await octokit.request('POST /repos/{owner}/{repo}/git/commits', {
@@ -74,7 +70,6 @@ export const pushRepositoryContent = async (repo: string, data: Props, path: str
       'X-GitHub-Api-Version': '2022-11-28'
     }
   })).data;
-  console.log(`New commit SHA: ${newCommitSha}`);
 
   // Refs 업데이트
   const update = await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {

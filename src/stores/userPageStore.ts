@@ -5,7 +5,7 @@ interface Page {
   user: string
 }
 
-export const usePageStore = create(
+export const userPageStore = create(
   persist<Page>((set) => ({
     user: "None",
     setUser: (user: string) => set({user: user})
