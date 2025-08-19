@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTableColumns, faChartLine, faUsers } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
@@ -47,7 +47,7 @@ const SideBar = ({ user }: { user: string }) => {
         )
       )}
     </div>
-  )
-}
+  );
+};
 
 export default SideBar;

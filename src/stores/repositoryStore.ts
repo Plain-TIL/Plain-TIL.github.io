@@ -4,13 +4,13 @@ import { persist } from "zustand/middleware";
 
 interface Repository {
   name: string;
-}
+};
 
 interface RepositoryState {
   repositories: string[];
   error: any;
   fetchRepositories: () => Promise<void>;
-}
+};
 
 export const repositoryStore = create(
   persist<RepositoryState>((set) => ({
@@ -27,9 +27,9 @@ export const repositoryStore = create(
         set({ repositories: filteredRepos.map((repo) => { return repo.name}) })
       } catch (error) {
         set({ error: error })
-      }
+      };
     }
   }), {
     name: "repositoryStore"
   })
-)
+);

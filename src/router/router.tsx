@@ -15,7 +15,7 @@ const Router = () => {
         <Route path="*" element={<NotFound></NotFound>}/>
       </Routes>
     </HashRouter>
-  )
-}
+  );
+};
 
 export default Router;

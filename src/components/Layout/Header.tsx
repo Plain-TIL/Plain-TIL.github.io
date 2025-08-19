@@ -8,7 +8,7 @@ const Header = () => {
         Plain TIL
       </span>
     </header>
-  )
-}
+  );
+};
 
 export default Header;

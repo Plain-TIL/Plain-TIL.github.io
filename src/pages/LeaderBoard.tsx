@@ -13,27 +13,27 @@ const LeaderBoardWrapper = () => {
   const { repositories } = repositoryStore();
 
   useRendering(async () => {
-    const originData = await getRepositoryContent("main_data", "data.json")
+    const originData = await getRepositoryContent("main_data", "data.json");
     const data = originData.users.map((user: any) => { return user.name });
-    const newRepos = repositories.filter(name => !data.includes(name))
+    const newRepos = repositories.filter(name => !data.includes(name));
 
     const object = { users: [...originData.users, ...newRepos.map((name) => {
       return (
         {name: name, streak: 0, max_streak: 0, til: 0, today: false}
       )
-    })]}
+    })]};
     if (newRepos.length > 0) {
       await pushRepositoryContent("main_data", object, "data.json");
       setUserPromise(getRepositoryContent("main_data", "data.json"));
-    }
+    };
   });
 
   return (
     <Wrapper>
       <LeaderBoard userPromise={userPromise} />
     </Wrapper>
-  )
-}
+  );
+};
 
 const LeaderBoard = ({ userPromise }: { userPromise: Promise<any>}) => {
   const users = use(userPromise).users;
@@ -65,7 +65,7 @@ const LeaderBoard = ({ userPromise }: { userPromise: Promise<any>}) => {
         })}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default LeaderBoardWrapper;

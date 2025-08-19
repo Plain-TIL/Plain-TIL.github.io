@@ -4,4 +4,4 @@ export type User = {
   max_streak: number
   til: number
   today: boolean
-}
+};

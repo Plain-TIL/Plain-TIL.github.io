@@ -18,6 +18,6 @@ const useRendering = (callback: () => void)=> {
       return () => clearInterval(id); // 언마운트에는 메모리 누수 방지를 위한 인터벌 정리
     }
   }, [delayTime]);
-}
+};
 
 export default useRendering;

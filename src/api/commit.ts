@@ -3,11 +3,11 @@ import { Octokit } from "octokit"
 const orgName = import.meta.env.VITE_ORG_NAME || ''
 const octokit = new Octokit({
   auth: import.meta.env.VITE_GITHUB_TOKEN
-})
+});
 
 interface Props {
   users: any[]
-}
+};
 
 export const pushRepositoryContent = async (repo: string, data: Props, path: string) => {
   // 데이터를 blob으로 변환
@@ -82,4 +82,4 @@ export const pushRepositoryContent = async (repo: string, data: Props, path: str
     }
   });
   console.log('Refs updated successfully:', update.data);
-}
+};

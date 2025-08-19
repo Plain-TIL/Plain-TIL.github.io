@@ -1,6 +1,6 @@
-import { Outlet, useParams } from "react-router-dom"
-import Header from "./Header"
-import SideBar from "./SideBar"
+import { Outlet, useParams } from "react-router-dom";
+import Header from "./Header";
+import SideBar from "./SideBar";
 
 const Layout = () => {
   const user = useParams().user || "None";
@@ -14,7 +14,7 @@ const Layout = () => {
         <Outlet />
       </main>
     </div>
-  )
-}
+  );
+};
 
 export default Layout;

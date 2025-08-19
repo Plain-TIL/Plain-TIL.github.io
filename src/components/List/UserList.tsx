@@ -1,11 +1,11 @@
-import { faUser } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Link } from "react-router-dom"
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 interface Props {
   toggle: boolean;
   repositories: string[]
-}
+};
 
 const UserList = ({ toggle, repositories }: Props) => {
   return (
@@ -24,7 +24,7 @@ const UserList = ({ toggle, repositories }: Props) => {
         )
       })}
     </>
-  )
+  );
 };
 
 export default UserList;

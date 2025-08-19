@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 interface Page {
   user: string
-}
+};
 
 export const userPageStore = create(
   persist<Page>((set) => ({

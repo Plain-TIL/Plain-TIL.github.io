@@ -36,4 +36,4 @@ export const users: User[] = [
     til: 2, 
     today: false
   },
-]
+];
